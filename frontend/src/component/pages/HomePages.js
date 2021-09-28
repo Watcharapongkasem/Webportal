@@ -1,21 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
-import mapDispatchToProps from '../../redux/DispatchToProps'
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-
-class HomePages extends Component {  
-
-    render() {
-        
-        return (
-            <div>
-                <h1>Hello From HomePages {new URLSearchParams(this.props.location.search).get("username")}</h1>
-                <input type="button" onClick={()=> this.props.logout()} value="LogOut"></input>
-            </div>
-        )
-    }
+class HomePages extends Component {
+  render() {
+    return (
+      <div>
+        <h1>
+          Hello From HomePages          
+        </h1>
+      </div>
+    );
+  }
 }
 
-export default compose(withRouter,connect(null,mapDispatchToProps))(HomePages)
+export default withRouter(HomePages);

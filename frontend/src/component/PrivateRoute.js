@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router";
+import Navbar from "./pages/Navbar";
 export default function PrivateRoute({
   component: Component,
   status,
@@ -8,10 +9,16 @@ export default function PrivateRoute({
   return (
     <Route
       {...rest}
-      render={(props) => {          
-        return status()? <Component {...props} /> : <Redirect to={"/"} />;
+      render={(props) => {
+        return status() ? (
+          <div>
+            <Navbar />
+            <Component {...props} />
+          </div>
+        ) : (
+          <Redirect to={"/"} />
+        );
       }}
     />
   );
-
 }

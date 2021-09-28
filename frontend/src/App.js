@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import Login from "./component/pages/Login";
 import Home from "./component/pages/HomePages";
-import { Route } from "react-router-dom";
+/* import { Route } from "react-router-dom"; */
 import PrivateRoute from "./component/PrivateRoute";
 import { connect } from "react-redux";
 import mapStateToProps from "./redux/StateToProps";
 import mapDispatchToProps from "./redux/DispatchToProps";
+import StatusLogin from "./component/StatusLogin";
 
 class App extends Component {
   getToken() {
-    if (this.props.statusLogin){
-      localStorage.setItem('author', JSON.stringify({author:this.props.statusLogin}));
-    }else{
-      localStorage.setItem('author', JSON.stringify({author:this.props.statusLogin}));
-    }
     const getToken = localStorage.getItem("author");
     const token = JSON.parse(getToken);
     return token?.author;
@@ -22,7 +18,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/" component={Login} />
+        <StatusLogin
+          exact
+          path="/"
+          component={Login}
+          status={this.getToken.bind(this)}
+        />
         <PrivateRoute
           exact
           path="/home"

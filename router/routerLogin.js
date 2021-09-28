@@ -14,7 +14,7 @@ async function main() {
 const infoUser = mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  authorPage: Boolean
+  authorPage: Boolean,
 });
 
 //new model for infoUser
@@ -29,49 +29,69 @@ router.post("/", express.urlencoded({ extended: false }), (req, res) => {
     const newUser = new userAndPass({
       username,
       password: hash,
-      authorPage:false
+      authorPage: false,
     });
     newUser.save((err, data) => {
       if (err) {
         console.log(err);
       } else {
-        res.redirect('/');
+        res.redirect("/");
       }
     });
   });
 });
 
 const getUSer = (req, res, next) => {
-
-  userAndPass.findOne({ username: req.query.username })
-    .exec((err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        bcrypt.compare( req.query.password,  data.password, async function (err, result) {
-            // result == truex
-            if (result) {
-              data.authorPage=true;
-              await data.save();
-              res.json({result:'pass'});
-            } else {
-              res.json({result:'not pass'});
-            }
+  userAndPass.findOne({ username: req.query.username }).exec((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      bcrypt.compare(
+        req.query.password,
+        data.password,
+        async function (err, result) {
+          // result == truex
+          if (result) {
+            data.authorPage = true;
+            await data.save();
+            res.json({ result: "pass", username: req.query.username });
+          } else {
+            res.json({ result: "not pass" });
           }
-        );
-      }
-    });
+        }
+      );
+    }
+  });
 };
-router.get("/getUser",getUSer);
+router.get("/getUser", getUSer);
 
-router.get('/user/:username',(req,res)=>{    
-    userAndPass.findOne({username: req.params.username}).exec((err,data)=>{        
-        if(data){
-            res.json({username:data.username})
-        }else{
-            res.json({username:"Not Found"})
-        }       
-    })
+router.get("/user/:username", (req, res) => {
+  userAndPass.findOne({ username: req.params.username }).exec((err, data) => {
+    if (data) {
+      res.json({ username: data.username });
+    } else {
+      res.json({ username: "Not Found" });
+    }
+  });
+});
+
+router.post("/statusLog", express.json(), (req, res) => {
+  console.log("back end", req.body.username);
+  userAndPass.findOne({ username: req.body.username }).exec((err, data) => {
+    console.log(data);
+    if (data.authorPage) {
+      data.authorPage = false;
+      data.save((err, data) => {
+        res.json({ author: data.authorPage, username: data.username });
+      });
+    }
+  });
+});
+
+router.get("/statusLog", (req, res) => {
+  userAndPass.findOne({ username: req.query.username }).exec((err, data) => {
+    res.json({ author: data.authorPage });
+  });
 });
 
 module.exports = router;
