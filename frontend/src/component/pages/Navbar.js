@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import mapDispatchToProps from "../../redux/DispatchToProps";
 import mapStateToProps from "../../redux/StateToProps";
 
 class Navbar extends Component {
+
+  datalocal = () => {
+    const getToken = localStorage.getItem("author");
+    const token = JSON.parse(getToken);
+    return token?.username;
+  }
+
   onLogout() {      
-    const datalocal = () => {
-      const getToken = localStorage.getItem("author");
-      const token = JSON.parse(getToken);
-      return token?.username;
-    };
+    
     fetch("/login/statusLog", {
       method: "post",
       headers: {
@@ -19,7 +22,7 @@ class Navbar extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: datalocal(),
+        username: this.datalocal(),
       }),
     })
       .then((res) => res.json())
@@ -59,11 +62,13 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
+                <div>{this.datalocal()}</div>
+                <div>Profile</div>
+                {this.datalocal()==="admin@world.com"?<div><Link to="/EditContent">EditContent</Link></div>:<div></div>}
                 <input
                   type="button"
                   onClick={this.onLogout.bind(this)}
-                  value="Logout"
-                  
+                  value="Logout"                  
                 ></input>
               </li>
             </ul>

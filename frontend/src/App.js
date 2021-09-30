@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import mapStateToProps from "./redux/StateToProps";
 import mapDispatchToProps from "./redux/DispatchToProps";
 import StatusLogin from "./component/StatusLogin";
+import EditContent from "./component/pages/EditContent";
 
 class App extends Component {
   getToken() {
@@ -28,6 +29,12 @@ class App extends Component {
           exact
           path="/home"
           component={Home}
+          status={this.getToken.bind(this)}
+        />
+        <PrivateRoute
+          exact
+          path="/EditContent"
+          component={EditContent}
           status={this.getToken.bind(this)}
         />
       </div>

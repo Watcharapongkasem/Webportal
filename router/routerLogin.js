@@ -46,20 +46,24 @@ const getUSer = (req, res, next) => {
     if (err) {
       console.log(err);
     } else {
-      bcrypt.compare(
-        req.query.password,
-        data.password,
-        async function (err, result) {
-          // result == truex
-          if (result) {
-            data.authorPage = true;
-            await data.save();
-            res.json({ result: "pass", username: req.query.username });
-          } else {
-            res.json({ result: "not pass" });
+      if (data == null) {
+        res.json({ result: "not pass" });
+      } else {
+        bcrypt.compare(
+          req.query.password,
+          data.password,
+          async function (err, result) {
+            // result == truex
+            if (result) {
+              data.authorPage = true;
+              await data.save();
+              res.json({ result: "pass", username: req.query.username });
+            } else {
+              res.json({ result: "not pass" });
+            }
           }
-        }
-      );
+        );
+      }
     }
   });
 };
@@ -76,9 +80,7 @@ router.get("/user/:username", (req, res) => {
 });
 
 router.post("/statusLog", express.json(), (req, res) => {
-  console.log("back end", req.body.username);
   userAndPass.findOne({ username: req.body.username }).exec((err, data) => {
-    console.log(data);
     if (data.authorPage) {
       data.authorPage = false;
       data.save((err, data) => {

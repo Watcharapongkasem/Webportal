@@ -6,6 +6,9 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch({ type: "LOGOUT" });
     },
+    textInput: (value) => {
+      dispatch({ type: "ADD_CONTENT", addContent: value });
+    },
   };
 }
 
