@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import mapDispatchToProps from "../../redux/DispatchToProps";
 import mapStateToProps from "../../redux/StateToProps";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import $ from "jquery";
 class Navbar extends Component {
-
   datalocal = () => {
     const getToken = localStorage.getItem("author");
     const token = JSON.parse(getToken);
     return token?.username;
-  }
+  };
 
-  onLogout() {      
-    
+  onLogout() {
     fetch("/login/statusLog", {
       method: "post",
       headers: {
@@ -28,7 +28,7 @@ class Navbar extends Component {
       .then((res) => res.json())
       .then((res) => {
         if (!res.author) {
-        console.log('logout')
+          console.log("logout");
           this.props.logout();
           localStorage.setItem(
             "author",
@@ -40,40 +40,45 @@ class Navbar extends Component {
           this.props.history.push("/");
         }
       });
-
   }
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <div>Navbar</div>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
+      <nav className="">        
+          <div className="navmenu">Web Portal</div>
+          <NavLink exact to="/home" className="linkmenu navmenu">
+            HOME
+          </NavLink>
 
+          <button
+            className="menudrop"
+            type="button"
+            onClick={() => {
+              $("#navbarNav").toggle(300);
+            }}
+          >
+            <FontAwesomeIcon icon={faBars} />
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className="contentdrop mb-3" id="navbarNav">
             <ul className="navbar-nav">
-              <li className="nav-item">
+              <li >
                 <div>{this.datalocal()}</div>
                 <div>Profile</div>
-                {this.datalocal()==="admin@world.com"?<div><Link to="/EditContent">EditContent</Link></div>:<div></div>}
+                {this.datalocal() === "admin@world.com" ? (
+                  <div>
+                    <Link to="/EditContent">EditContent</Link>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
                 <input
                   type="button"
                   onClick={this.onLogout.bind(this)}
-                  value="Logout"                  
+                  value="Logout"
                 ></input>
               </li>
             </ul>
           </div>
-        </div>
+       
       </nav>
     );
   }

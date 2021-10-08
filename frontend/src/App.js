@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Login from "./component/pages/Login";
 import Home from "./component/pages/HomePages";
-/* import { Route } from "react-router-dom"; */
 import PrivateRoute from "./component/PrivateRoute";
 import { connect } from "react-redux";
 import mapStateToProps from "./redux/StateToProps";
