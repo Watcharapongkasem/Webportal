@@ -12,6 +12,12 @@ function mapDispatchToProps(dispatch) {
     deleteInput: (value) => {
       dispatch({ type: "REMOVE_CONTENT", id: value });
     },
+    textNewInput: (value) => {
+      dispatch({ type: "ADD_NEWCONTENT", addNewContent: value });
+    },
+    deleteNewInput: (value) => {
+      dispatch({ type: "REMOVE_NEWCONTENT", newid: value });
+    },
     newType: () => {
       dispatch({ type: "NEW_TYPE" });
     },

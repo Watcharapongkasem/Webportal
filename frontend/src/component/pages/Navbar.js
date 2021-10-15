@@ -43,42 +43,46 @@ class Navbar extends Component {
   }
   render() {
     return (
-      <nav className="">        
-          <div className="navmenu">Web Portal</div>
-          <NavLink exact to="/home" className="linkmenu navmenu">
-            HOME
-          </NavLink>
+      <nav className="">
+        <div className="navmenu">Web Portal</div>
+        <NavLink exact to="/home" className="linkmenu navmenu">
+          HOME
+        </NavLink>
 
-          <button
-            className="menudrop"
-            type="button"
-            onClick={() => {
-              $("#navbarNav").toggle(300);
-            }}
-          >
-            <FontAwesomeIcon icon={faBars} />
-          </button>
-          <div className="contentdrop mb-3" id="navbarNav">
-            <ul className="navbar-nav">
-              <li >
-                <div>{this.datalocal()}</div>
-                <div>Profile</div>
-                {this.datalocal() === "admin@world.com" ? (
+        <button
+          className="menudrop"
+          type="button"
+          onClick={() => {
+            $("#navbarNav").toggle(300);
+          }}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+        <div className="contentdrop mb-3" id="navbarNav">
+          <ul className="navbar-nav">
+            <li>
+              <div>{this.datalocal()}</div>
+              <div>Profile</div>
+              {this.datalocal() === "admin@world.com" ? (
+                <div>
                   <div>
                     <Link to="/EditContent">EditContent</Link>
                   </div>
-                ) : (
-                  <div></div>
-                )}
-                <input
-                  type="button"
-                  onClick={this.onLogout.bind(this)}
-                  value="Logout"
-                ></input>
-              </li>
-            </ul>
-          </div>
-       
+                  <div>
+                    <Link to="/Dashboard">Dashboard</Link>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              <input
+                type="button"
+                onClick={this.onLogout.bind(this)}
+                value="Logout"
+              ></input>
+            </li>
+          </ul>
+        </div>
       </nav>
     );
   }

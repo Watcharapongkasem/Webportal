@@ -1,0 +1,115 @@
+.boximg {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.imgtype {
+  display: inline-block;
+  width: 20%;
+  height: 190px;
+  position: relative;
+}
+.imgtype img {
+  width: 100%;
+  display: inline-block;
+  transition: 0.1s ease;
+  height: 190px;
+  object-fit: cover;
+  backface-visibility: hidden;
+  opacity: 1;
+}
+
+.textimg {
+  display: inline;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.imgtype img:hover {
+  opacity: 0.3;
+}
+
+.imgtype:hover .textimg {
+  opacity: 1;
+}
+
+.active {
+  opacity: 1;
+}
+
+.activeimg {
+  opacity: 0.3 !important;
+}
+
+.listtype {
+  padding: 10px;
+  .titletype {
+    border-bottom: 8px solid rgb(255, 176, 0);
+    margin-bottom: 10px;
+  }
+  .alldata {
+    width: 33%;
+    height: 100px;
+    padding: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+
+    .datafrom {
+      background-color: rgb(255, 240, 207);
+      height: 100px;
+      text-align: center;
+      border-radius: 15px;
+    }
+    .morethan {
+      all: unset;
+      position: absolute;
+      bottom: 0px;
+      width: 96%;
+      background-color: rgb(255, 218, 153);
+      opacity: 0.5;
+      text-align: center;
+      cursor: pointer;
+    }
+    .morethan:hover {
+      background-color: rgb(255, 176, 0);
+      color: rgb(255, 98, 0);
+    }
+  }
+}
+
+.othertype {
+  width: 31%;
+  height: 200px;  
+  display: inline-block;
+  margin: 1%;
+  overflow: hidden;
+  position: relative;
+
+  .subdata {
+    background-color: rgb(255, 240, 207);
+    height: 200px;
+    border-radius: 25px 25px 0px 0px;
+    padding: 15px;
+  }
+
+  .subread {
+    all: unset;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background-color: rgb(255, 218, 153);
+    opacity: 0.5;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .subread:hover {
+    background-color: rgb(255, 176, 0);
+    color: rgb(255, 98, 0);
+  }
+}

@@ -7,6 +7,8 @@ import mapStateToProps from "./redux/StateToProps";
 import mapDispatchToProps from "./redux/DispatchToProps";
 import StatusLogin from "./component/StatusLogin";
 import EditContent from "./component/pages/EditContent";
+import Maindata from "./component/pages/Maindata";
+import Dashboard from "./component/pages/Dashboard";
 
 class App extends Component {
   getToken() {
@@ -34,6 +36,18 @@ class App extends Component {
           exact
           path="/EditContent"
           component={EditContent}
+          status={this.getToken.bind(this)}
+        />
+        <PrivateRoute
+          exact
+          path="/maindata"
+          component={Maindata}
+          status={this.getToken.bind(this)}
+        />
+        <PrivateRoute
+          exact
+          path="/Dashboard"
+          component={Dashboard}
           status={this.getToken.bind(this)}
         />
       </div>

@@ -1,24 +1,23 @@
-nav button{
+nav button {
   margin-top: 8px;
   margin-right: 8px;
   float: right;
-} 
+}
 
 nav {
   height: 45px;
-  background-color: brown;  
+  background-color: rgb(255,98,0);
 }
 
-.navmenu{
+.navmenu {
   display: inline-block;
-  height: 100%; 
+  height: 100%;
   padding: 8px;
 }
 
 .menudrop {
   position: relative;
   display: block;
-    
 }
 
 .contentdrop {
@@ -27,14 +26,44 @@ nav {
   top: 48px;
   right: 0px;
   background-color: wheat;
+  z-index: 2;
 }
 
-.linkmenu{
+.linkmenu {
   text-decoration: none;
   border: none;
   color: black;
 }
 
-.linkmenu:focus{
+.linkmenu:focus {
   background-color: white;
 }
+
+
+
+
+.image.image_resized img {
+  width: 100%;
+}
+
+.defaultheight{
+  height: 100px;
+  overflow:hidden; 
+  position: relative;
+}
+
+.maindata {
+  overflow:hidden;
+  height: 100%;
+  padding: 10px;
+}
+
+.readmore{
+  width: 100%;
+  background-color: antiquewhite;
+  position:absolute;
+  left: 0px;
+  bottom: 0px;
+  opacity: 0.7;
+}
+

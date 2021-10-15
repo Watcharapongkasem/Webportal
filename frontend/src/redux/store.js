@@ -26,6 +26,19 @@ function content(state = [], action) {
   }
 }
 
+function newcontent(state = '', action) {
+  switch (action.type) {
+    case "ADD_NEWCONTENT":
+      return action.addNewContent;
+    case "REMOVE_NEWCONTENT":
+      return state.filter((value, index) => {
+        return index !== Number(action.newid);
+      });
+    default:
+      return state;
+  }
+}
+
 function newcollection(state = "Other", action) {
   switch (action.type) {
     case "COLLETION":
@@ -35,7 +48,7 @@ function newcollection(state = "Other", action) {
   }
 }
 
-function getData(state = { data: [], typePost: "" }, action) {
+function getData(state = { data: [], typePost: "Other" }, action) {
   switch (action.type) {
     case "ADD_DATA":
       return { data: action.getData, typePost: action.typePost };
@@ -65,6 +78,7 @@ const root = combineReducers({
   newcollection,
   getData,
   editData,
+  newcontent,
 });
 
 const store = createStore(root);

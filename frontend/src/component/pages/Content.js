@@ -1,35 +1,74 @@
 import React, { Component } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import mapDispatchToProps from "../../redux/DispatchToProps";
+import mapStateToProps from "../../redux/StateToProps";
+import { connect } from "react-redux";
 
-export default class Content extends Component {
+class Content extends Component {
+  async onSubmit(e) {
+    if (this.props.typecollection !== "ALL") {
+      await fetch("/post", {
+        method: "post",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          collectionPost: this.props.typecollection,
+          dataPost: this.props.newcontent,
+          viewPost:0,
+          authorPost: "admin",
+        }),
+      });
+
+      this.props.textInput(this.props.newcontent);
+      this.props.textNewInput("");
+    }
+  }  
+
   render() {
     return (
-      <div className="App">
-        <h2>Using CKEditor 5 build in React</h2>
+      <div id="textcontent">
+        <h2 className="text-center">Edit Content</h2>
         <CKEditor
-          editor={ClassicEditor}
-          data="<p>Hello from CKEditor 5!</p>"
-          onInit={(editor) => {
-
-            // You can store the "editor" and use when it's needed.
+          onReady={(editor) => {
             console.log("Editor is ready to use!", editor);
+            // Insert the toolbar before the editable area.
+            editor.ui
+              .getEditableElement()
+              .parentElement.insertBefore(
+                editor.ui.view.toolbar.element,
+                editor.ui.getEditableElement()
+              );
+            this.editor = editor;
+          }}
+          onError={({ willEditorRestart }) => {
+            // If the editor is restarted, the toolbar element will be created once again.
+            // The `onReady` callback will be called again and the new toolbar will be added.
+            // This is why you need to remove the older toolbar.
+            if (willEditorRestart) {
+              this.editor.ui.view.toolbar.element.remove();
+            }
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
+            this.props.textNewInput(data);
             console.log({ event, editor, data });
           }}
-          
+          editor={DecoupledEditor}
+          data={this.props.newcontent}
           config={{
-            
             image: {
-                sizes:'50%' ,
-                  
-           },
-            ckfinder: { uploadUrl: "/uploads" },            
+              toolbar: ["toggleImageCaption", "imageTextAlternative"],
+            },
+            ckfinder: { uploadUrl: "/uploads" },
           }}
         />
+        <input type="button" value="POST" onClick={this.onSubmit.bind(this)} />
       </div>
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Content);

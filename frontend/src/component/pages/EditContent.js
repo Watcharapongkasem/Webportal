@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import mapDispatchToProps from "../../redux/DispatchToProps";
 import mapStateToProps from "../../redux/StateToProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Content from "./Content";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 
 class EditContent extends Component {
   async onCollection(e) {
@@ -17,26 +19,6 @@ class EditContent extends Component {
         this.props.getApi({ data: res.dataPost, typePost: e.target.value });
         this.props.newType();
       });
-  }
-
-  async onSubmit(e) {
-    if (this.props.typecollection !== "ALL") {
-      await fetch("/post", {
-        method: "post",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collectionPost: this.props.typecollection,
-          dataPost: document.getElementById("textcontent").value,
-          authorPost: "admin",
-        }),
-      });
-
-      this.props.textInput(document.getElementById("textcontent").value);
-      document.getElementById("textcontent").value = "";
-    }
   }
 
   async onDelete(e) {
@@ -82,7 +64,7 @@ class EditContent extends Component {
   }
 
   async onEdit(event) {
-    console.log(this.props.geteditdata);
+    console.log(event.currentTarget.name);
     await fetch("/post", {
       method: "PATCH",
       headers: {
@@ -109,7 +91,6 @@ class EditContent extends Component {
     var namelist = ["ALL", "House", "Game", "Pet", "Other"];
     return (
       <div>
-        <Content />
         <div>
           {/* typecollection */}
           <p className="text-center mt-3">List EditContent</p>
@@ -126,22 +107,22 @@ class EditContent extends Component {
               );
             })}
           </div>
+
           {/* textcontent */}
           <div className="d-flex justify-content-center mb-2">
-            <textarea id="textcontent" className="w-75 mh-100"></textarea>
-            <input
-              type="button"
-              value="POST"
-              onClick={this.onSubmit.bind(this)}
-            />
+            <Content />
           </div>
 
           {/* content */}
           <div class="container d-flex flex-column bd-highlight mb-3">
             {this.props.textcontent.map((value, index) => {
               return (
-                <div class="p-2 bg-primary mb-2" id={value + index}>
-                  {value}
+                <div class="bg-primary mb-2 defaultheight" id={value + index}>
+                  {/* DATA */}
+                  <div
+                    className="maindata"
+                    dangerouslySetInnerHTML={{ __html: value }}
+                  />
                   <button
                     type="button"
                     data-bs-toggle="offcanvas"
@@ -169,43 +150,83 @@ class EditContent extends Component {
                       ></button>
                     </div>
                     <div class="offcanvas-body">
-                      <textarea
-                        id={"textcontentEdit" + index}
-                        className="w-75 mh-100"
-                        value={
+                      <CKEditor
+                        onReady={(editor) => {
+                          editor.ui
+                            .getEditableElement()
+                            .parentElement.insertBefore(
+                              editor.ui.view.toolbar.element,
+                              editor.ui.getEditableElement()
+                            );
+
+                          this.editor = editor;
+                        }}
+                        onError={({ willEditorRestart }) => {
+                          if (willEditorRestart) {
+                            this.editor.ui.view.toolbar.element.remove();
+                          }
+                        }}
+                        onChange={(event, editor) => {
+                          const data = editor.getData();
+                          value === data
+                            ? this.props.inputEdit("")
+                            : this.props.inputEdit(data);
+                        }}
+                        editor={DecoupledEditor}
+                        data={
                           this.props.geteditdata
                             ? this.props.geteditdata
                             : value
                         }
-                        onChange={(e) => this.props.inputEdit(e.target.value)}
-                      ></textarea>
-                     {/* update */}
-                     <input
-                            type="button"
-                            value="Edit"
-                            name={index}
-                            onClick={this.onEdit.bind(this)}
-                          />
+                        config={{
+                          image: {
+                            toolbar: [
+                              "toggleImageCaption",
+                              "imageTextAlternative",
+                            ],
+                          },
+                          ckfinder: { uploadUrl: "/uploads" },
+                        }}
+                      />
+                      {/* update */}
+                      <input
+                        type="button"
+                        value="Edit"
+                        name={index}
+                        onClick={this.onEdit.bind(this)}
+                      />
                     </div>
                   </div>
                   <button onClick={this.onNewDelete.bind(this)} name={index}>
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </button>
+                  <Link
+                    to={`maindata?index=${index}&type=${this.props.getnewdata.typePost}`}
+                    className="readmore"
+                    target="_blank"
+                  >
+                    Read more
+                  </Link>
                 </div>
               );
             })}
             {this.props.getnewdata.typePost === "ALL"
               ? this.props.getnewdata.data.map((value, index) => {
+                  console.log(value);
                   return (
-                    <div className="p-2 bg-primary mb-2" id={value + index}>
-                      <div>{namelist[index+1]}</div>
+                    <div className="p-2 bg-primary mb-2 " id={value + index}>
+                      <div>{namelist[index + 1]}</div>
                       {value.map((value1, index1) => {
                         return (
                           <div
-                            className="p-2 bg-secondary mb-2"
+                            className="p-2 bg-secondary mb-2 defaultheight"
                             id={value1 + index1}
                           >
-                            {value1}
+                            {/* DATA */}
+                            <div
+                              className="maindata"
+                              dangerouslySetInnerHTML={{ __html: value1 }}
+                            />
                           </div>
                         );
                       })}
@@ -214,8 +235,15 @@ class EditContent extends Component {
                 })
               : this.props.getnewdata.data.map((value, index) => {
                   return (
-                    <div className="p-2 bg-primary mb-2" id={value + index}>
-                      {value}
+                    <div
+                      className="bg-primary mb-2 defaultheight"
+                      id={value + index}
+                    >
+                      {/* DATA */}
+                      <div
+                        className="maindata"
+                        dangerouslySetInnerHTML={{ __html: value }}
+                      />
                       {/* EDIT */}
                       <button
                         type="button"
@@ -244,18 +272,44 @@ class EditContent extends Component {
                           ></button>
                         </div>
                         <div class="offcanvas-body">
-                          <textarea
-                            id={"textcontentEdit" + index}
-                            className="w-75 mh-100"
-                            value={
+                          <CKEditor
+                            onReady={(editor) => {
+                              editor.ui
+                                .getEditableElement()
+                                .parentElement.insertBefore(
+                                  editor.ui.view.toolbar.element,
+                                  editor.ui.getEditableElement()
+                                );
+
+                              this.editor = editor;
+                            }}
+                            onError={({ willEditorRestart }) => {
+                              if (willEditorRestart) {
+                                this.editor.ui.view.toolbar.element.remove();
+                              }
+                            }}
+                            onChange={(event, editor) => {
+                              const data = editor.getData();
+                              value === data
+                                ? this.props.inputEdit("")
+                                : this.props.inputEdit(data);
+                            }}
+                            editor={DecoupledEditor}
+                            data={
                               this.props.geteditdata
                                 ? this.props.geteditdata
                                 : value
                             }
-                            onChange={(e) =>
-                              this.props.inputEdit(e.target.value)
-                            }
-                          ></textarea>
+                            config={{
+                              image: {
+                                toolbar: [
+                                  "toggleImageCaption",
+                                  "imageTextAlternative",
+                                ],
+                              },
+                              ckfinder: { uploadUrl: "/uploads" },
+                            }}
+                          />
                           {/* update */}
                           <input
                             type="button"
@@ -269,6 +323,13 @@ class EditContent extends Component {
                       <button onClick={this.onDelete.bind(this)} name={index}>
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </button>
+                      <Link
+                        to={`maindata?index=${index}&type=${this.props.getnewdata.typePost}`}
+                        className="readmore"
+                        target="_blank"
+                      >
+                        Read more
+                      </Link>
                     </div>
                   );
                 })}
