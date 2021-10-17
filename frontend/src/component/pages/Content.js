@@ -17,7 +17,7 @@ class Content extends Component {
         body: JSON.stringify({
           collectionPost: this.props.typecollection,
           dataPost: this.props.newcontent,
-          viewPost:0,
+          viewPost: 0,
           authorPost: "admin",
         }),
       });
@@ -25,12 +25,11 @@ class Content extends Component {
       this.props.textInput(this.props.newcontent);
       this.props.textNewInput("");
     }
-  }  
+  }
 
   render() {
     return (
       <div id="textcontent">
-        <h2 className="text-center">Edit Content</h2>
         <CKEditor
           onReady={(editor) => {
             console.log("Editor is ready to use!", editor);
@@ -60,7 +59,14 @@ class Content extends Component {
           data={this.props.newcontent}
           config={{
             image: {
-              toolbar: ["toggleImageCaption", "imageTextAlternative"],
+              toolbar: [
+                "imageStyle:inline",
+                "imageStyle:block",
+                "imageStyle:side",
+                "|",
+                "toggleImageCaption",
+                "imageTextAlternative",
+              ],
             },
             ckfinder: { uploadUrl: "/uploads" },
           }}

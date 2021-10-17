@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
           collectionPost: type,
         })
         .toArray()
-        .then((data) => {          
+        .then((data) => {
           let newdata = data[0].dataPost;
           res.json({ content: newdata });
         });
@@ -43,8 +43,8 @@ router.get("/", (req, res) => {
         .find({})
         .toArray()
         .then((data) => {
-          var newdata= data.map((value) => value.dataPost)   
-          console.log(newdata)       
+          var newdata = data.map((value) => value.dataPost);
+
           res.json({ content: newdata });
         });
     }

@@ -6,7 +6,7 @@ import mapDispatchToProps from "../../redux/DispatchToProps";
 import mapStateToProps from "../../redux/StateToProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import $ from "jquery";
+
 class Navbar extends Component {
   datalocal = () => {
     const getToken = localStorage.getItem("author");
@@ -41,11 +41,27 @@ class Navbar extends Component {
         }
       });
   }
+
+  componentDidMount() {
+    document.addEventListener("mouseup", function (e) {
+      var container = document.getElementById("navbarNav");
+      if (container && !container.contains(e.target)) {
+        
+        document.getElementById("navbarNav").classList.remove("showdis");
+      }
+    });
+    if(this.props.location.pathname==="/home"){
+      document.getElementById("linkhome").classList.add("focuslink")
+    }else{
+      document.getElementById("linkhome").classList.remove("focuslink")
+    }
+
+  }
   render() {
     return (
       <nav className="">
         <div className="navmenu">Web Portal</div>
-        <NavLink exact to="/home" className="linkmenu navmenu">
+        <NavLink exact to="/home" className="linkmenu navmenu" id="linkhome">
           HOME
         </NavLink>
 
@@ -53,11 +69,24 @@ class Navbar extends Component {
           className="menudrop"
           type="button"
           onClick={() => {
-            $("#navbarNav").toggle(300);
+            console.log(1);
+            var classlist = document
+              .getElementById("navbarNav")
+              .className.split(/\s+/);
+            for (var i = 0; i < classlist.length; i++) {
+              if (classlist[i] === "showdis") {
+                document
+                  .getElementById("navbarNav")
+                  .classList.remove("showdis");
+              } else {
+                document.getElementById("navbarNav").classList.add("showdis");
+              }
+            }
           }}
         >
           <FontAwesomeIcon icon={faBars} />
         </button>
+
         <div className="contentdrop mb-3" id="navbarNav">
           <ul className="navbar-nav">
             <li>

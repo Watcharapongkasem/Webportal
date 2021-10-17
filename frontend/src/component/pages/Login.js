@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import mapDispatchToProps from "../../redux/DispatchToProps";
 import mapStateToProps from "../../redux/StateToProps";
+import "../../Login.scss";
 
 class Login extends Component {
   onSubmit(event) {
@@ -62,29 +63,33 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row d-flex align-items-center min-vh-100">
-          <div className="col-6 text-center">
-            <div className="pb-3">Register</div>
-            <form method="POST" id="formRegister" >
-              <label for="username"className="col-3 pb-3">username</label>
+      <div className="boxall">
+        <div className="boxlogin">
+          <div className="typelogin">
+            <div className="mb-2">Register</div>
+            <form method="POST" id="formRegister">
+              <label for="username" className="">
+                username
+              </label>
               <input
                 type="email"
                 placeholder="example@hotmail.com"
                 id="username"
                 name="username"
-                className="col-6 "            
+                className=""
               ></input>
               <br />
-              <label for="password"className="col-3 pb-3 ">password</label>
+              <label for="password" className="">
+                password
+              </label>
               <input
                 type="password"
                 placeholder="least 8 word"
                 id="password"
                 name="password"
-                className="col-6" 
+                className=""
               ></input>
-              <br />
+              
               <input
                 type="button"
                 value="Register"
@@ -94,27 +99,31 @@ class Login extends Component {
             <div id="errorpas"></div>
           </div>
 
-          <div className="col-6 text-center">
-            <div className="pb-3">Login</div>
-            <form method="GET" id="formLogin" >
-              <label for="username" className="col-3 pb-3">username</label>
+          <div className="typelogin">
+            <div className="mb-2">Login</div>
+            <form method="GET" id="formLogin">
+              <label for="username" className="">
+                username
+              </label>
               <input
                 type="email"
                 placeholder="example@hotmail.com"
                 id="usernameLogin"
                 name="usernameLogin"
-                className="col-6 "
+                className=""
               ></input>
               <br />
-              <label for="password" className="col-3 pb-3">password</label>
+              <label for="password" className="">
+                password
+              </label>
               <input
                 type="password"
                 placeholder="least 8 word"
                 id="passwordLogin"
                 name="passwordLogin"
-                className="col-6 "  
+                className=""
               ></input>
-              <br />
+
               <input
                 type="button"
                 value="Login"

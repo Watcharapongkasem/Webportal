@@ -1,3 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
+.titleedit img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  object-position: 0px 69%;
+}
+.titleedit{
+  position: relative;
+  .listedit{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Lobster", cursive;
+    font-size: 33px;
+    color: #E0E531;
+  }
+}
+
+
 .boximg {
   width: 100%;
   margin-bottom: 15px;
@@ -62,8 +84,9 @@
     .datafrom {
       background-color: rgb(255, 240, 207);
       height: 100px;
-      text-align: center;
+
       border-radius: 15px;
+      padding: 15px;
     }
     .morethan {
       all: unset;
@@ -84,7 +107,7 @@
 
 .othertype {
   width: 31%;
-  height: 200px;  
+  height: 200px;
   display: inline-block;
   margin: 1%;
   overflow: hidden;
@@ -113,3 +136,11 @@
     color: rgb(255, 98, 0);
   }
 }
+
+img.image.image_resized,
+figure.image.image_resized {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+

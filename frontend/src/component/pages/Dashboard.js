@@ -108,19 +108,29 @@ export default class Dashboard extends Component {
       : (namelist = ["Choose", "House", "Game", "Pet", "Other"]);
     return (
       <div>
-        Dash board
-        <div>
+        <div className="boxtitle">
+          <img src="dashbord.jpg" id="dashboard" alt="titledb"></img>
+          <div className="texttitle">DASHBOARD</div>
+        </div>
+        <div className="choosedata">
+          <label>DATASET OF</label>
           <select onChange={this.onChange.bind(this)}>
             {namelist.map((data) => {
               return <option value={data}>{data}</option>;
             })}
           </select>
         </div>
-        <div class="chart-container">
+        <div class="chart-container bettweenchart">
           <canvas id="myChart" width="1" height="1"></canvas>
         </div>
         <div class="chart-container">
           <canvas id="All" width="1" height="1"></canvas>
+        </div>
+        <div className="subchart">
+          <div>Chart no.1 Viewer of bar graphs</div>
+          <div>
+            Chart no.2 The entire number of viewers is shown using a pie chart
+          </div>
         </div>
       </div>
     );

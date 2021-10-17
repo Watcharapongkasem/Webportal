@@ -4,6 +4,7 @@ import { withRouter } from "react-router";
 import { compose } from "redux";
 import mapDispatchToProps from "../../redux/DispatchToProps";
 import mapStateToProps from "../../redux/StateToProps";
+import "../../maindata.scss";
 
 class maindata extends Component {
   constructor(props) {
@@ -23,7 +24,11 @@ class maindata extends Component {
       });
   }
   render() {
-    return <div><div dangerouslySetInnerHTML={{ __html: this.state.text }} /></div>;
+    return (
+      <div >
+        <div className="singlecontent" dangerouslySetInnerHTML={{ __html: this.state.text }} />
+      </div>
+    );
   }
 }
 

@@ -44,7 +44,6 @@ class HomePages extends Component {
     fetch("/home?type=All")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         this.setState({
           data: res.content,
           type: "All",
@@ -52,8 +51,7 @@ class HomePages extends Component {
       });
     document.getElementById("ALL").classList.add("active");
     document.getElementById("ALL0").classList.add("activeimg");
-
-  } 
+  }
 
   render() {
     const listtype = ["ALL", "HOUSE", "GAME", "PET", "OTHER"];

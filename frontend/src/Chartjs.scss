@@ -1,5 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
 .chart-container {
-    width: 50%;
-    height:400px;
-    display: inline-block;
+  width: 50%;
+  height: 400px;
+  display: inline-block;
+  padding: 15px;
 }
+
+.bettweenchart{
+    padding-right: 50px;
+    border-right: 7px solid #D5CAD6;
+}
+
+.boxtitle {
+  position: relative;
+  margin-bottom: 10px;
+  .texttitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Lobster", cursive;
+    font-size: 33px;
+    color: #bd2d87;
+  }
+}
+
+#dashboard {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.choosedata {
+  margin-left: 10px;
+  label{
+      margin-right: 5px;
+  }
+  select{
+      width: 100px;
+  }
+}
+ .subchart div{
+     width: 50%;
+     display: inline-block;
+     text-align: center;
+     margin-top: 15px;
+     font-size: 16px;
+ }

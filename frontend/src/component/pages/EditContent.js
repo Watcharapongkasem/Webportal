@@ -9,6 +9,7 @@ import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Content from "./Content";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import "../../TextEdit.scss";
 
 class EditContent extends Component {
   async onCollection(e) {
@@ -18,6 +19,11 @@ class EditContent extends Component {
         this.props.collections(e.target.value);
         this.props.getApi({ data: res.dataPost, typePost: e.target.value });
         this.props.newType();
+        const classactive = document.getElementsByClassName("activetype");
+        while (classactive.length > 0) {
+          classactive[0].classList.remove("activetype");
+        }
+        document.getElementById(e.target.id).classList.add("activetype");
       });
   }
 
@@ -93,12 +99,15 @@ class EditContent extends Component {
       <div>
         <div>
           {/* typecollection */}
-          <p className="text-center mt-3">List EditContent</p>
+          <div className="titleedit">
+            <img src="Editcontent.jpg" alt="1"></img>
+            <div className="listedit">LIST EDITCONTENT</div>
+          </div>
           <div className="d-flex justify-content-between ">
             {namelist.map((value, index) => {
               return (
                 <input
-                  className="w-25 m-3 btn btn-light border rounded text-center"
+                  className="w-25 m-3  border rounded text-center"
                   type="button"
                   value={value}
                   id={index}
@@ -114,16 +123,17 @@ class EditContent extends Component {
           </div>
 
           {/* content */}
-          <div class="container d-flex flex-column bd-highlight mb-3">
+          <div class="container  mb-3">
             {this.props.textcontent.map((value, index) => {
               return (
-                <div class="bg-primary mb-2 defaultheight" id={value + index}>
+                <div class="mb-2 defaultheight" id={value + index}>
                   {/* DATA */}
                   <div
                     className="maindata"
                     dangerouslySetInnerHTML={{ __html: value }}
                   />
                   <button
+                    className="editbutton"
                     type="button"
                     data-bs-toggle="offcanvas"
                     data-bs-target={"#offcanvasRigh" + index}
@@ -181,6 +191,10 @@ class EditContent extends Component {
                         config={{
                           image: {
                             toolbar: [
+                              "imageStyle:inline",
+                              "imageStyle:block",
+                              "imageStyle:side",
+                              "|",
                               "toggleImageCaption",
                               "imageTextAlternative",
                             ],
@@ -214,8 +228,8 @@ class EditContent extends Component {
               ? this.props.getnewdata.data.map((value, index) => {
                   console.log(value);
                   return (
-                    <div className="p-2 bg-primary mb-2 " id={value + index}>
-                      <div>{namelist[index + 1]}</div>
+                    <div className="p-2 mb-2 " id={value + index}>
+                      <div className="forall mb-3">{namelist[index + 1]}</div>
                       {value.map((value1, index1) => {
                         return (
                           <div
@@ -235,10 +249,7 @@ class EditContent extends Component {
                 })
               : this.props.getnewdata.data.map((value, index) => {
                   return (
-                    <div
-                      className="bg-primary mb-2 defaultheight"
-                      id={value + index}
-                    >
+                    <div className="mb-2 defaultheight" id={value + index}>
                       {/* DATA */}
                       <div
                         className="maindata"
@@ -246,6 +257,7 @@ class EditContent extends Component {
                       />
                       {/* EDIT */}
                       <button
+                        className="editbutton"
                         type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target={"#offcanvasRight" + index}
@@ -303,6 +315,10 @@ class EditContent extends Component {
                             config={{
                               image: {
                                 toolbar: [
+                                  "imageStyle:inline",
+                                  "imageStyle:block",
+                                  "imageStyle:side",
+                                  "|",
                                   "toggleImageCaption",
                                   "imageTextAlternative",
                                 ],
@@ -320,11 +336,15 @@ class EditContent extends Component {
                         </div>
                       </div>
                       {/* DELETE */}
-                      <button onClick={this.onDelete.bind(this)} name={index}>
+                      <button
+                        onClick={this.onDelete.bind(this)}
+                        name={index}
+                        className="deletebutton"
+                      >
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </button>
                       <Link
-                        to={`maindata?index=${index}&type=${this.props.getnewdata.typePost}`}
+                        to={`maindata?index=${index+(this.props.textcontent.length===0?0:this.props.textcontent.length)}&type=${this.props.getnewdata.typePost}`}
                         className="readmore"
                         target="_blank"
                       >

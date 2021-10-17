@@ -6,7 +6,7 @@ nav button {
 
 nav {
   height: 45px;
-  background-color: rgb(255,98,0);
+  background-color: rgb(255, 98, 0);
 }
 
 .navmenu {
@@ -18,15 +18,38 @@ nav {
 .menudrop {
   position: relative;
   display: block;
+  border: 2px solid #00916E;
+  color: #00916E;
+}
+
+.menudrop:active ,.menudrop:focus{
+  border: 3px solid #61210F;
+  color: #61210F;
 }
 
 .contentdrop {
   display: none;
+  width: 200px;
+  box-sizing: content-box;
   position: absolute;
-  top: 48px;
-  right: 0px;
+  top: 45px;
+  right: 10px;
   background-color: wheat;
   z-index: 2;
+  text-align: center;
+  box-shadow: 3px 3px;
+  * {
+    all:unset;
+    display: inline-block;
+    width: 100%;
+  }
+  li>div:nth-child(n+1):nth-child(-n+2):hover,input:hover,div:nth-child(3)>div:hover{
+    background-color: yellowgreen;
+    cursor: pointer;
+  }
+}
+.showdis {
+  display: inline-block !important;
 }
 
 .linkmenu {
@@ -35,35 +58,54 @@ nav {
   color: black;
 }
 
-.linkmenu:focus {
+.focuslink {
   background-color: white;
 }
 
-
-
+@import url("https://fonts.googleapis.com/css2?family=Rampart+One&display=swap");
+.forall {
+  width: 99%;
+  border-bottom: 5px solid #002642;
+  color: #757575;
+  font-size: 30px;
+  font-family: "Rampart One", cursive;
+}
 
 .image.image_resized img {
   width: 100%;
 }
 
-.defaultheight{
+.defaultheight {
+  width: 49%;
+  margin-right: 1%;
+  display: inline-block;
   height: 100px;
-  overflow:hidden; 
+  overflow: hidden;
   position: relative;
 }
 
 .maindata {
-  overflow:hidden;
+  overflow: hidden;
+
   height: 100%;
   padding: 10px;
+  background-color: whitesmoke;
 }
 
-.readmore{
+.readmore {
+  all: unset;
   width: 100%;
-  background-color: antiquewhite;
-  position:absolute;
+  background-color: black;
+  color: #ffff;
+  position: absolute;
   left: 0px;
   bottom: 0px;
-  opacity: 0.7;
+  opacity: 0.5;
+  cursor: pointer;
+  text-align: center;
 }
 
+.readmore:hover {
+  color: #ffff;
+  opacity: 0.8;
+}
