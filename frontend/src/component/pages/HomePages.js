@@ -64,7 +64,7 @@ class HomePages extends Component {
               <div className="imgtype">
                 <img
                   id={value + index}
-                  src={value + ".jpg"}
+                  src={"http://localhost:3000/"+value + ".jpg"}
                   alt={value}
                   onClick={this.loaddata.bind(this)}
                   name={value}

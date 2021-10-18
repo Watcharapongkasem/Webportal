@@ -1,6 +1,7 @@
 .boxall {
   width: 100%;
   height: 100vh;
+  background: url("portal.jpg") no-repeat fixed center;
   position: relative;
   .boxlogin {
     width: 70%;
@@ -39,9 +40,4 @@
         box-shadow: 2px 2px black;
     }
   }
-}
-
-body{
-    background: url("portal.jpg") no-repeat fixed center;
-    content: "";
 }

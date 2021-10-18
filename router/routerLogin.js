@@ -15,6 +15,7 @@ const infoUser = mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   authorPage: Boolean,
+  profile: [{ type: String }],
 });
 
 //new model for infoUser
@@ -93,6 +94,35 @@ router.post("/statusLog", express.json(), (req, res) => {
 router.get("/statusLog", (req, res) => {
   userAndPass.findOne({ username: req.query.username }).exec((err, data) => {
     res.json({ author: data.authorPage });
+  });
+});
+
+router.post("/profile", express.json(), (req, res) => {
+  const { username, fname, lname, byear } = req.body;
+  userAndPass.findOne({ username }).exec((err, data) => {
+    data.profile = [fname, lname, byear, new Date()];
+    data.save((err, data) => {
+      if (!err) {
+        res.json({
+          fname: data.profile[0],
+          lname: data.profile[1],
+          byear: data.profile[2],
+        });
+      }
+    });
+  });
+});
+
+router.get("/profile", (req, res) => {
+  const { username } = req.query;
+  userAndPass.findOne({ username }).exec((err, data) => {
+    if (!err) {
+      res.json({
+        fname: data.profile[0],
+        lname: data.profile[1],
+        byear: data.profile[2],
+      });
+    }
   });
 });
 

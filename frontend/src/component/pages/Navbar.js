@@ -46,16 +46,14 @@ class Navbar extends Component {
     document.addEventListener("mouseup", function (e) {
       var container = document.getElementById("navbarNav");
       if (container && !container.contains(e.target)) {
-        
         document.getElementById("navbarNav").classList.remove("showdis");
       }
     });
-    if(this.props.location.pathname==="/home"){
-      document.getElementById("linkhome").classList.add("focuslink")
-    }else{
-      document.getElementById("linkhome").classList.remove("focuslink")
+    if (this.props.location.pathname === "/home") {
+      document.getElementById("linkhome").classList.add("focuslink");
+    } else {
+      document.getElementById("linkhome").classList.remove("focuslink");
     }
-
   }
   render() {
     return (
@@ -91,7 +89,7 @@ class Navbar extends Component {
           <ul className="navbar-nav">
             <li>
               <div>{this.datalocal()}</div>
-              <div>Profile</div>
+              <div><Link to="/Profile">Profile</Link></div>
               {this.datalocal() === "admin@world.com" ? (
                 <div>
                   <div>
@@ -102,7 +100,7 @@ class Navbar extends Component {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <span></span>
               )}
               <input
                 type="button"

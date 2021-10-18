@@ -43,6 +43,9 @@ nav {
     display: inline-block;
     width: 100%;
   }
+  span{
+    display: none !important;
+  }
   li>div:nth-child(n+1):nth-child(-n+2):hover,input:hover,div:nth-child(3)>div:hover{
     background-color: yellowgreen;
     cursor: pointer;
