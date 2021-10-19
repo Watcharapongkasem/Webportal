@@ -6,17 +6,22 @@ export default class Dashboard extends Component {
     super(props);
     this.state = { view: [], type: "" };
     this.chart = null;
-    this.dynamicColors = this.dynamicColors.bind(this);
-  }
+    this.dynamicColors = this.dynamicColors.bind(this);    
+  }  
   async onChange(event) {
-    await fetch("/dashboard?type=" + event.target.value)
+    if (event.target.value!=="Choose"){
+      await fetch("/dashboard?type=" + event.target.value)
       .then((res) => res.json())
       .then((res) => {
         this.setState({ view: res.content, type: event.target.value });
       });
+    }else{
+      this.setState({ view: [], type: '' });
+    }
+    
   }
 
-  async componentDidMount() {
+  async componentDidMount() {    
     var yValues;
     await fetch("/dashboard/All")
       .then((res) => res.json())
@@ -102,10 +107,8 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    var namelist = ["Choose", "House", "Game", "Pet", "Other"];
-    this.state.type
-      ? (namelist = ["House", "Game", "Pet", "Other"])
-      : (namelist = ["Choose", "House", "Game", "Pet", "Other"]);
+    var namelist = ["Choose","House", "Game", "Pet", "Other"];
+
     return (
       <div>
         <div className="boxtitle">

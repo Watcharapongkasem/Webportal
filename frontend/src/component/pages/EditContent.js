@@ -20,10 +20,22 @@ class EditContent extends Component {
         this.props.getApi({ data: res.dataPost, typePost: e.target.value });
         this.props.newType();
         const classactive = document.getElementsByClassName("activetype");
+
         while (classactive.length > 0) {
           classactive[0].classList.remove("activetype");
         }
+
         document.getElementById(e.target.id).classList.add("activetype");
+      });
+  }
+
+  async onUpdate(e) {
+    await fetch("/post/" + e.target.value)
+      .then((res) => res.json())
+      .then((res) => {
+        this.props.collections(e.target.value);
+        this.props.getApi({ data: res.dataPost, typePost: e.target.value });
+        this.props.newType();
       });
   }
 
@@ -86,7 +98,7 @@ class EditContent extends Component {
       .then((res) => res.json())
       .then((res) => {
         if (res.res === "update data") {
-          this.onCollection({
+          this.onUpdate({
             target: { value: this.props.getnewdata.typePost },
           });
         }
@@ -211,7 +223,11 @@ class EditContent extends Component {
                       />
                     </div>
                   </div>
-                  <button onClick={this.onNewDelete.bind(this)} name={index}>
+                  <button
+                    onClick={this.onNewDelete.bind(this)}
+                    name={index}
+                    className="deletebutton"
+                  >
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </button>
                   <Link
@@ -344,7 +360,12 @@ class EditContent extends Component {
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </button>
                       <Link
-                        to={`maindata?index=${index+(this.props.textcontent.length===0?0:this.props.textcontent.length)}&type=${this.props.getnewdata.typePost}`}
+                        to={`maindata?index=${
+                          index +
+                          (this.props.textcontent.length === 0
+                            ? 0
+                            : this.props.textcontent.length)
+                        }&type=${this.props.getnewdata.typePost}`}
                         className="readmore"
                         target="_blank"
                       >

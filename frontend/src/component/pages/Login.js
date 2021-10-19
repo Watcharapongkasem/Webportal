@@ -20,13 +20,13 @@ class Login extends Component {
           document.getElementById("formRegister").submit();
         } else if (data.username !== "Not Found") {
           document.getElementById("errorpas").innerText =
-            "can't use this username";
+            "This username isn't available.";
           setTimeout(() => {
             document.getElementById("errorpas").innerText = "";
           }, 2000);
         } else {
           document.getElementById("errorpas").innerText =
-            "password least 8 word";
+            "Password must be at least 8 words";
           setTimeout(() => {
             document.getElementById("errorpas").innerText = "";
           }, 2000);
@@ -53,7 +53,7 @@ class Login extends Component {
           this.props.history.push(`/home`);
         } else if (data.result === "not pass") {
           document.getElementById("errorpasLogin").innerText =
-            "wrong Username or Password";
+            "Username or Password is incorrect";
           setTimeout(() => {
             document.getElementById("errorpasLogin").innerText = "";
           }, 2000);
